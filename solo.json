@@ -1,0 +1,13 @@
+{
+  "run_list": [
+    "recipe[apt::default]",
+    "recipe[build-essential::default]",
+    "recipe[nmap::default]",
+    "recipe[sublime-text::default]",
+    "recipe[vim::default]",
+    "recipe[dotfiles::default]",
+    "recipe[essentials::default]",
+    "recipe[dolphin-emu::default]",
+    "recipe[games::default]"
+  ]
+}
