@@ -3,6 +3,7 @@
     "recipe[apt::default]",
     "recipe[build-essential::default]",
     "recipe[nmap::default]",
+    "recipe[python::default]",
     "recipe[sublime-text::default]",
     "recipe[vim::default]",
     "recipe[dotfiles::default]",
