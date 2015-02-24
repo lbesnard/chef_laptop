@@ -12,7 +12,7 @@ if ! test -f "$chef_binary"; then
     # Install Ruby and Chef
    # aptitude install -y ruby1.9.1 ruby1.9.1-dev make &&
    # sudo gem1.9.1 install --no-rdoc --no-ri chef 
-   aptitude install -y chef
+   aptitude install --force -yes chef
 fi &&
 
 echo "provision chef"
