@@ -40,3 +40,22 @@ packages = [essentials, network ,java, netcdf , vm,multimedia, db]
 packages.flatten.each do |a_package|
   package a_package
 end
+
+
+git "~/bin/" do
+  repository "git://github.com/lbesnard/encryption.git"
+  reference "master"
+  action :sync
+end
+
+# Install btsync
+remote_file "/tmp/btsync.tar.gz" do
+  source "http://download.getsyncapp.com/endpoint/btsync/os/linux-x64/track/stable" do
+  command "tar xzvf /tmp/btsync.tar.gz -C /tmp; mv btsync ~/.bin; btsync"
+  action :run
+  environment ({'HOME' => '/home/lbesnard'})
+  ignore_failure true
+end
+
+
+
