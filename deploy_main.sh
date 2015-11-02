@@ -5,4 +5,6 @@
 host="${1:-lbesnard-Latitude-E6320}"
 
 sudo bash install.sh
-
+# TOTO : run the script a second time which will fix dependency issues.
+# Def a bit dodg, but quicker to fix this way
+sudo bash install.sh

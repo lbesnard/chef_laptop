@@ -6,17 +6,14 @@ remote_file "/tmp/dolphin_4.0-5242_amd64.deb" do
 end
 
 
-execute "dependancies" do
-  command "apt-get -f install"
-  action :run
-  environment ({'HOME' => '/home/lbesnard'})
-  ignore_failure true
-end
-
-
 dpkg_package "dolphin-emu" do
   source "/tmp/dolphin_4.0-5242_amd64.deb"
   action :install
   ignore_failure true
+  notifies :run, "execute[install-deps]", :immediately
 end
 
+execute "install dolphin deps" do
+  command "apt-get -yf install"
+  action :run
+end
