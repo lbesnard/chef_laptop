@@ -17,6 +17,7 @@ github_repos = [  "https://github.com/lbesnard/dotfiles", \
                   "git@github.com:aodn/chef-private.git", \
                   "https://github.com/aodn/harvesters", \
                   "https://github.com/aodn/imos-user-code-library", \
+                  "https://github.com/twpayne/flightrecorder", \
                   "https://github.com/reicast/reicast-emulator" ]
 
 github_repos.flatten.each do |repo_name|

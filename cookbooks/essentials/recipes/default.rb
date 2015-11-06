@@ -138,6 +138,14 @@ bash "install chromaprint for beets" do
    ignore_failure true
 end
 
+# install paragliding tools
+execute "flight recorder" do
+ command "pip install flightrecorder"
+  action :run
+  environment ({'HOME' => '#{HOME_DIR}'})
+  ignore_failure true
+  user "root"
+end
 # install calibre
 #bash "calibre_install" do
 #  cwd '/tmp'
