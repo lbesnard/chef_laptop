@@ -3,41 +3,42 @@ HOME_DIR = "/home/#{node['chef_laptop']['user']}"
 
 ##  quake repo
 execute "zandronum" do
- command "sudo add-apt-repository 'deb http://debian.drdteam.org/ stable multiverse';wget -O - http://debian.drdteam.org/drdteam.gpg | sudo apt-key add -;sudo apt-get update;"
+ command "add-apt-repository 'deb http://debian.drdteam.org/ stable multiverse';wget -O - http://debian.drdteam.org/drdteam.gpg | apt-key add -;apt-get update;"
   action :run
   environment ({'HOME' => '#{HOME_DIR}'})
   ignore_failure true
+  user "root"
 end
 
 
 ## snes repo
 execute "snes9x-gtk" do
- command  "sudo add-apt-repository -y ppa:bearoso/ppa; sudo apt-get update;"
+ command  "add-apt-repository -y ppa:bearoso/ppa; apt-get update;"
   action :run
   environment ({'HOME' => '#{HOME_DIR}'})
   ignore_failure true
-
+  user "root"
 end
 
 # cleaning
 execute "cleaning" do
- command  "sudo apt-get install --assume-yes force;sudo apt-get update;"
+ command  "apt-get install --assume-yes force;apt-get update;"
   action :run
   environment ({'HOME' => '#{HOME_DIR}'})
   ignore_failure true
-
+  user "root"
 end
 
 # retroach
 execute "retroarch" do
- command  "sudo add-apt-repository -y ppa:hunter-kaller/ppa; sudo apt-get update;"
+ command  "add-apt-repository -y ppa:hunter-kaller/ppa; apt-get update;"
   action :run
   environment ({'HOME' => '#{HOME_DIR}'})
   ignore_failure true
-
+  user "root"
 end
 
-games = %w{dos2unix doom-wad-shareware doomseeker doomseeker-zandronum gzdoom ioquake3 ioquake3-dbg ioquake3-server snes9x-gtk zsnes playonlinux wine1.6  zandronum zandronum-client zandronum-pk3 zandronum-server retroarch libretro-snes9x  libretro-bsnes libretro-snes9x-next }
+games = %w{dos2unix doom-wad-shareware doomseeker doomseeker-zandronum gzdoom ioquake3 ioquake3-dbg ioquake3-server zsnes playonlinux wine1.6  zandronum zandronum-client zandronum-pk3 zandronum-server retroarch libretro-snes9x  libretro-bsnes libretro-snes9x-next }
 packages = [games]
 
 packages.flatten.each do |a_package|
