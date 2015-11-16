@@ -18,7 +18,8 @@ github_repos = [  "https://github.com/lbesnard/dotfiles", \
                   "https://github.com/aodn/harvesters", \
                   "https://github.com/aodn/imos-user-code-library", \
                   "https://github.com/twpayne/flightrecorder", \
-                  "https://github.com/reicast/reicast-emulator" ]
+                  "https://github.com/reicast/reicast-emulator",
+                  "https://github.com/junegunn/vim-easy-align"]
 
 github_repos.flatten.each do |repo_name|
   # keep only the repo name part of the string
@@ -60,4 +61,25 @@ execute "convert git repos https to git" do
   ignore_failure true
   user node['chef_laptop']['user']
   group node['chef_laptop']['group']
+end
+
+
+# create .janus directory for plugins
+directory "#{HOME_DIR}.janus" do
+  mode 0755
+  owner node['chef_laptop']['user']
+  group node['chef_laptop']['group']
+  user node['chef_laptop']['user']
+  action :create
+  ignore_failure true
+end
+
+
+execute "add vim plugins to .janus" do
+  command "ln -s #{GITHUB_REPO}/vim-easy-align #{HOME_DIR}/.janus/vim-easy-align"
+  action :run
+  environment ({'HOME' => "#{HOME_DIR}"})
+  ignore_failure true
+  group node['chef_laptop']['group']
+  user node['chef_laptop']['user']
 end

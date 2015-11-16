@@ -28,3 +28,13 @@ execute "python netCDF4" do
   ignore_failure true
   user "root"
 end
+
+# install selenium for river heights
+execute "python selenium" do
+ command "pip install selenium; pip install pyvirtualdisplay; pip install pdfminer"
+  action :run
+  environment ({'HOME' => '#{HOME_DIR}'})
+  ignore_failure true
+  user "root"
+end
+package xvfb
