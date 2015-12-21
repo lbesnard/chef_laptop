@@ -76,7 +76,7 @@ end
 
 
 execute "add vim plugins to .janus" do
-  command "ln -s #{GITHUB_REPO}/vim-easy-align #{HOME_DIR}/.janus/vim-easy-align"
+  command "ln --force -s #{GITHUB_REPO}/vim-easy-align #{HOME_DIR}/.janus/vim-easy-align"
   action :run
   environment ({'HOME' => "#{HOME_DIR}"})
   ignore_failure true

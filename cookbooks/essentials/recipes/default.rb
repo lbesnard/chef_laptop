@@ -1,5 +1,38 @@
 HOME_DIR = "/home/#{node['chef_laptop']['user']}"
 
+# CREATE DIRECTORIES
+directory '/mnt/imos-t4' do
+   owner 'root'
+   group 'root'
+   mode '0755'
+   action :create
+   ignore_failure true
+end
+
+directory '/mnt/opendap' do
+   owner 'root'
+   group 'root'
+   mode '0755'
+   action :create
+   ignore_failure true
+end
+
+directory '/mnt/opendap/1' do
+   owner 'root'
+   group 'root'
+   mode '0755'
+   action :create
+   ignore_failure true
+end
+
+directory '/mnt/opendap/2' do
+   owner 'root'
+   group 'root'
+   mode '0755'
+   action :create
+   ignore_failure true
+end
+
 directory '/opt' do
    owner node['chef_laptop']['user']
    group node['chef_laptop']['user']
@@ -22,6 +55,20 @@ dpkg_package "dropbox" do
 #  notifies :run, "execute[install-deps]", :immediately
 end
 
+# Install vagrant 1.7
+remote_file "/tmp/vagrant.deb" do
+  source "https://releases.hashicorp.com/vagrant/1.7.4/vagrant_1.7.4_x86_64.deb"
+  mode 0644
+  checksum "dcd2c2b5d7ae2183d82b8b363979901474ba8d2006410576ada89d7fa7668336"
+  use_conditional_get true
+end
+
+dpkg_package "vagrant" do
+    source "/tmp/chef_dk_amd64.deb"
+    action :install
+    ignore_failure true
+end
+
 # Install chef-dk , still need manual process
 remote_file "/tmp/chef_dk_amd64.deb" do
   source "https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.9.0-1_amd64.deb"
@@ -36,6 +83,30 @@ dpkg_package "chef_dk" do
     ignore_failure true
 end
 
+# install berkshelf
+bash "install berkshelf" do
+  cwd '/tmp'
+  code <<-EOH
+   command -v berks >/dev/null || vagrant plugin install berkshelf;
+   EOH
+   environment ({'HOME' => "#{HOME_DIR}" })
+   user node['chef_laptop']['user']
+   ignore_failure true
+end
+
+# install vagrant-berkshelf
+bash "install vagrant-berkshelf" do
+  cwd '/tmp'
+  code <<-EOH
+   plugin_list=`vagrant plugin list`;[[ ! "$plugin_list" == *"vagrant-berkshelf"* ]] && vagrant plugin install vagrant-berkshelf;
+   EOH
+   environment ({'HOME' => "#{HOME_DIR}" })
+   user node['chef_laptop']['user']
+   ignore_failure true
+   return [0,1]
+end
+
+
 ##  handbrake
 apt_repository 'handbrake' do
   uri       'http://ppa.launchpad.net/stebbins/handbrake-releases/ubuntu'
@@ -43,18 +114,20 @@ apt_repository 'handbrake' do
 end
 
 
-essentials = %w{yajl-tools txt2regex emacs whois devscripts keepass2 xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils}
-network    = %w{elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd network-manager network-manager-gnome network-manager-openvpn network-manager-openvpn-gnome network-manager-pptp  network-manager-pptp-gnome  network-manager-vpnc  network-manager-vpnc-gnome ngrep strace transmission-gtk}
-java = %w{ant}
-netcdf = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfview}
-vm = %w{vagrant virtualbox-4.3 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 bundler rbenv gem }
+essentials  = %w{shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
+network     = %w{elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd network-manager network-manager-gnome network-manager-openvpn network-manager-openvpn-gnome network-manager-pptp  network-manager-pptp-gnome  network-manager-vpnc  network-manager-vpnc-gnome ngrep strace transmission-gtk}
+java        = %w{ant}
+netcdf      = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfview}
+vm          = %w{virtualbox-4.3 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 bundler rbenv gem }
 # timidity tuxguitar-jsa to solve conflict with tuxguitar
-multimedia = %w{tuxguitar timidity tuxguitar-jsa mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag}
-db = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.3 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
-janus = %w{ruby-dev rake exuberant-ctags ack-grep}
+guitar      = %w{tuxguitar timidity tuxguitar-jsa}
+multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag }
+pdf         = %w{scantailor pdfmod}
+db          = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.3 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
+janus       = %w{ruby-dev rake exuberant-ctags ack-grep}
 raspberrypi = %w{tightvncserver}
-beets = %w{python-gi gstreamer0.10-plugins-good gstreamer0.10-plugins-bad gstreamer0.10-plugins-ugly spark}
-packages = [ essentials, network, java, netcdf, vm, multimedia, db, janus, raspberrypi, beets ]
+beets       = %w{python-gi gstreamer0.10-plugins-good gstreamer0.10-plugins-bad gstreamer0.10-plugins-ugly spark}
+packages    = [ essentials, network, java, netcdf, vm, guitar, multimedia, pdf, db, janus, raspberrypi, beets ]
 
 packages.flatten.each do |a_package|
   package a_package
@@ -145,48 +218,6 @@ execute "flight recorder" do
   environment ({'HOME' => '#{HOME_DIR}'})
   ignore_failure true
   user "root"
-end
-# install calibre
-#bash "calibre_install" do
-#  cwd '/tmp'
-#  code <<-EOH
-#   sudo -v && wget -nv -O- https://raw.githubusercontent.com/kovidgoyal/calibre/master/setup/linux-installer.py | sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main()"
-#  EOH
-#  environment ({'HOME' => '#{HOME_DIR}'})
-#  ignore_failure true
-#  user node['chef_laptop']['user']
-#end
-
-directory '/mnt/imos-t4' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
-directory '/mnt/opendap' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
-directory '/mnt/opendap/1' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
-directory '/mnt/opendap/2' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
 end
 
 # create TALEND link
