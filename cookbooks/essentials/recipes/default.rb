@@ -121,7 +121,7 @@ netcdf      = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfvie
 vm          = %w{virtualbox-4.3 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 bundler rbenv gem }
 # timidity tuxguitar-jsa to solve conflict with tuxguitar
 guitar      = %w{tuxguitar timidity tuxguitar-jsa}
-multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag }
+multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag cantata gmpd}
 pdf         = %w{scantailor pdfmod}
 db          = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.3 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
 janus       = %w{ruby-dev rake exuberant-ctags ack-grep}

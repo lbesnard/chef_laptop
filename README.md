@@ -5,8 +5,8 @@ provision home and work laptop
 ```bash
 install dropbox manually and connect
 copy id_rsa private key to $HOME/.ssh (600)
-mkdir ~/githu_repo && cd ~/githu_repo ; sudo apt-get -y install git && git clone https://github.com/lbesnard/chef_laptop
-sudo -HE ./github_repo/install.sh
+mkdir $HOME/github_repo && cd $HOME/github_repo ; sudo apt-get -y install git && git clone https://github.com/lbesnard/chef_laptop
+cd $HOME; sudo -HE ./github_repo/install.sh
 ```
 
 requires https://github.com/lbesnard/dotfiles
