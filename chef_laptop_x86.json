@@ -10,6 +10,7 @@
     "recipe[build-essential::default]",
     "recipe[python_packages::default]",
     "recipe[vim::default]",
+    "recipe[perl::default]",
     "recipe[sublime-text::default]",
     "recipe[nmap::default]",
     "recipe[ssh::default]",

@@ -1,24 +1,10 @@
 HOME_DIR = "/home/#{node['chef_laptop']['user']}"
 
-package 'python-pip'
-package 'python-dev'
-package "python-matplotlib"
-package "python-netcdf"
-package "python-tk"
+python_package = [%w{python-pip python-dev python-matplotlib python-netcdf python-tk python-psycopg2 python-beautifulsoup libhdf5-serial-dev libnetcdf-dev ipython python-scipy}]
+python_package.flatten.each do |a_package|
+  package a_package
+end
 
-# Connect to postgres db
-package "python-psycopg2"
-
-# # email helper
-package "python-beautifulsoup"
-
-# NetCDF
-package "libhdf5-serial-dev"
-package "libnetcdf-dev"
-
-#Optional but very useful
-package "ipython"
-package "python-scipy"
 
 # install netcdf4
 execute "python netCDF4" do
@@ -53,5 +39,3 @@ end
     #command "pip install -r #{python_requirements}"
       #action  :nothing # Runs only if the data_services git repo updated
 #end
-
-package "xvfb"

@@ -1,44 +1,38 @@
 HOME_DIR = "/home/#{node['chef_laptop']['user']}"
 
-# CREATE DIRECTORIES
-directory '/mnt/imos-t4' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
-directory '/mnt/opendap' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
-directory '/mnt/opendap/1' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
-directory '/mnt/opendap/2' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
 directory '/opt' do
    owner node['chef_laptop']['user']
    group node['chef_laptop']['user']
    mode '0755'
    action :create
 end
+
+directory "#{HOME_DIR}/paragliding" do
+   owner node['chef_laptop']['user']
+   group node['chef_laptop']['user']
+   mode '0755'
+   action :create
+end
+
+# set plat for dropbox
+if RUBY_PLATFORM == 'x86_64-linux'
+  archDropbox = "amd64" 
+  archFpalc = "linux-x86_64"
+else 
+  archDropbox = "i386"
+  archFpalc = "linux-i686"
+end
+
+remote_file "/tmp/dropbox.deb" do
+  source "https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_#{archDropbox}.deb"
+  mode 0644
+end
+
+dpkg_package "Dropbox" do
+  source "/tmp/dropbox.deb"
+  action :install
+end
+
 
 # Install dropbox , still need manual process
 remote_file "/tmp/dropbox_1.6.2_amd64.deb" do
@@ -55,57 +49,6 @@ dpkg_package "dropbox" do
 #  notifies :run, "execute[install-deps]", :immediately
 end
 
-# Install vagrant 1.7
-remote_file "/tmp/vagrant.deb" do
-  source "https://releases.hashicorp.com/vagrant/1.7.4/vagrant_1.7.4_x86_64.deb"
-  mode 0644
-  checksum "dcd2c2b5d7ae2183d82b8b363979901474ba8d2006410576ada89d7fa7668336"
-  use_conditional_get true
-end
-
-dpkg_package "vagrant" do
-    source "/tmp/chef_dk_amd64.deb"
-    action :install
-    ignore_failure true
-end
-
-# Install chef-dk , still need manual process
-remote_file "/tmp/chef_dk_amd64.deb" do
-  source "https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.9.0-1_amd64.deb"
-  mode 0644
-  checksum "26cfeef1cca36038cd4bea7f9bd7c7146b66e0dd08fc6a8a4b713bbb913b2967"
-  use_conditional_get true
-end
-
-dpkg_package "chef_dk" do
-    source "/tmp/chef_dk_amd64.deb"
-    action :install
-    ignore_failure true
-end
-
-# install berkshelf
-bash "install berkshelf" do
-  cwd '/tmp'
-  code <<-EOH
-   command -v berks >/dev/null || vagrant plugin install berkshelf;
-   EOH
-   environment ({'HOME' => "#{HOME_DIR}" })
-   user node['chef_laptop']['user']
-   ignore_failure true
-end
-
-# install vagrant-berkshelf
-bash "install vagrant-berkshelf" do
-  cwd '/tmp'
-  code <<-EOH
-   plugin_list=`vagrant plugin list`;[[ ! "$plugin_list" == *"vagrant-berkshelf"* ]] && vagrant plugin install vagrant-berkshelf;
-   EOH
-   environment ({'HOME' => "#{HOME_DIR}" })
-   user node['chef_laptop']['user']
-   ignore_failure true
-   return [0,1]
-end
-
 
 ##  handbrake
 apt_repository 'handbrake' do
@@ -114,53 +57,26 @@ apt_repository 'handbrake' do
 end
 
 
-essentials  = %w{shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
+essentials  = %w{xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
 network     = %w{elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd network-manager network-manager-gnome network-manager-openvpn network-manager-openvpn-gnome network-manager-pptp  network-manager-pptp-gnome  network-manager-vpnc  network-manager-vpnc-gnome ngrep strace transmission-gtk}
 java        = %w{ant}
+make_deb_pckg= %w{automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev checkinstall}
 netcdf      = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfview}
 vm          = %w{virtualbox-4.3 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 bundler rbenv gem }
 # timidity tuxguitar-jsa to solve conflict with tuxguitar
 guitar      = %w{tuxguitar timidity tuxguitar-jsa}
-multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag cantata gmpd}
+multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag cantata gmpc}
 pdf         = %w{scantailor pdfmod}
 db          = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.3 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
 janus       = %w{ruby-dev rake exuberant-ctags ack-grep}
 raspberrypi = %w{tightvncserver}
 beets       = %w{python-gi gstreamer0.10-plugins-good gstreamer0.10-plugins-bad gstreamer0.10-plugins-ugly spark}
-packages    = [ essentials, network, java, netcdf, vm, guitar, multimedia, pdf, db, janus, raspberrypi, beets ]
+paragliding = %w{freeglut3 freeglut3-dev gnuplot perl-tk}
+packages    = [ essentials, network, java, make_deb_pckg, netcdf, vm, guitar, multimedia, pdf, db, janus, raspberrypi, beets, paragliding ]
 
 packages.flatten.each do |a_package|
   package a_package
 end
-
-# Install ncBrowse
-bash "install ncBrowse to /opt" do
-  cwd '/tmp'
-  code <<-EOH
-    command -v ncBrowse >/dev/null && echo "ncBrowse Found In \$PATH" || ( curl -L "ftp://ftp.epic.noaa.gov/java/ncBrowse/InstData/Linux/VM/install_rel1_6_7.bin" \
-     -o /tmp/ncBrowse.bin && chmod +x /tmp/ncBrowse.bin && sh /tmp/ncBrowse.bin && ln -s /opt/ncBrowse/ncBrowse /usr/bin/ncBrowse);
-  EOH
-  environment ({'HOME' => '#{HOME_DIR}' })
-  ignore_failure true
-end
-
-## Install btsync
-#remote_file "/tmp/btsync.tar.gz" do
-#  source "http://download.getsyncapp.com/endpoint/btsync/os/linux-x64/track/stable"
-#  ignore_failure true
-#end
-
-#bash "unpack btsync" do
-#  cwd '/tmp'
-#  code <<-EOH
-#  tar xzvf /tmp/btsync.tar.gz -C /tmp;
-#  cp /tmp/btsync #{HOME_DIR}/bin/btsync;
-#  ~/bin/btsync;
-#  EOH
-#  environment ({'HOME' => '#{HOME_DIR}' })
-#  ignore_failure true
-#end
-
 
 # install janus for vim
 bash "install janus" do
@@ -178,7 +94,6 @@ bash "install janus" do
    user node['chef_laptop']['user']
    ignore_failure true
 end
-
 
 # autostart guake
 execute "autostart guake" do
@@ -202,9 +117,9 @@ bash "install chromaprint for beets" do
   cwd '/tmp'
   code <<-EOH
    command -v fpcalc >/dev/null && \
-     echo "fpcalc Found In \$PATH" || ( curl -L https://bitbucket.org/acoustid/chromaprint/downloads/chromaprint-fpcalc-1.1-linux-x86_64.tar.gz \
+     echo "fpcalc Found In \$PATH" || ( curl -L https://bitbucket.org/acoustid/chromaprint/downloads/chromaprint-fpcalc-1.1-#{archFpalc}.tar.gz \
      -o /tmp/chromaprint.tar.gz &&  tar -xvf /tmp/chromaprint.tar.gz  -C /tmp/ && \
-     cp /tmp/chromaprint-fpcalc-1.1-linux-x86_64/fpcalc /usr/local/bin)
+     cp /tmp/chromaprint-fpcalc-1.1-#{archFpalc}/fpcalc /usr/local/bin)
    EOH
    environment ({'HOME' => "#{HOME_DIR}" })
    user "root"
@@ -212,18 +127,14 @@ bash "install chromaprint for beets" do
 end
 
 # install paragliding tools
+cpan_module 'Imager'
+cpan_module 'Image::ExifTool'
+cpan_module 'Image::PNG'
+
 execute "flight recorder" do
  command "pip install flightrecorder"
   action :run
   environment ({'HOME' => '#{HOME_DIR}'})
   ignore_failure true
   user "root"
-end
-
-# create TALEND link
-link "#{HOME_DIR}/Desktop/Talend" do
-   to "/opt/TOS_DI-r96646-V5.1.3/TOS_DI-linux-gtk-x86_64"
-   user node['chef_laptop']['user']
-   group node['chef_laptop']['group']
-   ignore_failure true
 end

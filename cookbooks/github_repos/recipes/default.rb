@@ -63,7 +63,6 @@ execute "convert git repos https to git" do
   group node['chef_laptop']['group']
 end
 
-
 # create .janus directory for plugins
 directory "#{HOME_DIR}.janus" do
   mode 0755
@@ -73,7 +72,6 @@ directory "#{HOME_DIR}.janus" do
   action :create
   ignore_failure true
 end
-
 
 execute "add vim plugins to .janus" do
   command "ln --force -s #{GITHUB_REPO}/vim-easy-align #{HOME_DIR}/.janus/vim-easy-align"
