@@ -15,6 +15,7 @@ github_repos = [  "https://github.com/lbesnard/dotfiles", \
                   "https://github.com/lbesnard/River_Height_Tasmania",
                   "git@github.com:aodn/chef.git", \
                   "git@github.com:aodn/chef-private.git", \
+                  "git@github.com:lbesnard/OSM_Tile_Download.git",\
                   "https://github.com/aodn/harvesters", \
                   "https://github.com/aodn/imos-user-code-library", \
                   "https://github.com/twpayne/flightrecorder", \
@@ -30,6 +31,7 @@ github_repos.flatten.each do |repo_name|
     repository repo_name
     reference "master"
     action :checkout
+    enable_submodules true
     user node['chef_laptop']['user']
     group node['chef_laptop']['group']
     ignore_failure true
@@ -64,7 +66,7 @@ execute "convert git repos https to git" do
 end
 
 # create .janus directory for plugins
-directory "#{HOME_DIR}.janus" do
+directory "#{HOME_DIR}/.janus" do
   mode 0755
   owner node['chef_laptop']['user']
   group node['chef_laptop']['group']

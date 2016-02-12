@@ -16,9 +16,9 @@ end
 
 # set plat for dropbox
 if RUBY_PLATFORM == 'x86_64-linux'
-  archDropbox = "amd64" 
+  archDropbox = "amd64"
   archFpalc = "linux-x86_64"
-else 
+else
   archDropbox = "i386"
   archFpalc = "linux-i686"
 end
@@ -31,22 +31,7 @@ end
 dpkg_package "Dropbox" do
   source "/tmp/dropbox.deb"
   action :install
-end
-
-
-# Install dropbox , still need manual process
-remote_file "/tmp/dropbox_1.6.2_amd64.deb" do
-  source "https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_1.6.2_amd64.deb"
-  mode 0644
-  checksum "58f0340db9f03fb054eb6bc86598de194f7fce8bec2f4870a8d4065277b0cc38" # PUT THE SHA256 CHECKSUM HERE
-  use_conditional_get true
-end
-
-dpkg_package "dropbox" do
-  source "/tmp/dropbox_1.6.2_amd64.deb"
-  action :install
   ignore_failure true
-#  notifies :run, "execute[install-deps]", :immediately
 end
 
 
@@ -62,16 +47,16 @@ network     = %w{elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd netwo
 java        = %w{ant}
 make_deb_pckg= %w{automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev checkinstall}
 netcdf      = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfview}
-vm          = %w{virtualbox-4.3 virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 bundler rbenv gem }
+vm          = %w{virtualbox virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 bundler rbenv gem }
 # timidity tuxguitar-jsa to solve conflict with tuxguitar
 guitar      = %w{tuxguitar timidity tuxguitar-jsa}
-multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag cantata gmpc}
+multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag cantata gmpc filebot}
 pdf         = %w{scantailor pdfmod}
 db          = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.3 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
 janus       = %w{ruby-dev rake exuberant-ctags ack-grep}
 raspberrypi = %w{tightvncserver}
 beets       = %w{python-gi gstreamer0.10-plugins-good gstreamer0.10-plugins-bad gstreamer0.10-plugins-ugly spark}
-paragliding = %w{freeglut3 freeglut3-dev gnuplot perl-tk}
+paragliding = %w{freeglut3 freeglut3-dev gnuplot perl-tk xterm gnuplot-x11 python-geopy}
 packages    = [ essentials, network, java, make_deb_pckg, netcdf, vm, guitar, multimedia, pdf, db, janus, raspberrypi, beets, paragliding ]
 
 packages.flatten.each do |a_package|

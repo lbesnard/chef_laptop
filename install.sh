@@ -21,13 +21,18 @@ echo "provision chef"
 if [ `uname -m`  == "x86_64" ] ; then
     "$chef_binary" -c chef_laptop.rb -j chef_laptop_x86_64.json
 else
-	"$chef_binary" -c chef_laptop.rb -j chef_laptop_x86.json
+    "$chef_binary" -c chef_laptop.rb -j chef_laptop_x86.json
 fi
 
 
 command -v calibre >/dev/null && echo "calibre Found In \$PATH" || \
-  (sudo -v && wget -nv -O- https://raw.githubusercontent.com/kovidgoyal/calibre/master/setup/linux-installer.py | \
-    sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main()")
+    (sudo -v && wget -nv -O- https://raw.githubusercontent.com/kovidgoyal/calibre/master/setup/linux-installer.py | \
+        sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main()")
 
 echo "install gpligc paragliding tool"
-dpkg -i dpkg/gpligc_1.10pre7-1_amd64.deb
+
+if [ `uname -m`  == "x86_64" ] ; then
+    dpkg -i dpkg/gpligc_1.10pre7-1_amd64.deb
+else
+    dpkg -i dpkg/gpligc_1.10pre7-1_i386.deb
+fi
