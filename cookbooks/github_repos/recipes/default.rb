@@ -11,24 +11,25 @@ directory "#{GITHUB_REPO}" do
   ignore_failure true
 end
 
-github_repos = [  "https://github.com/lbesnard/dotfiles", \
-                  "https://github.com/lbesnard/River_Height_Tasmania",
-                  "git@github.com:aodn/chef.git", \
-                  "git@github.com:aodn/chef-private.git", \
-                  "git@github.com:lbesnard/OSM_Tile_Download.git",\
-                  "https://github.com/aodn/harvesters", \
-                  "https://github.com/aodn/imos-user-code-library", \
-                  "https://github.com/twpayne/flightrecorder", \
-                  "https://github.com/reicast/reicast-emulator",
-                  "https://github.com/junegunn/vim-easy-align"]
+github_repos = [  "lbesnard/dotfiles", \
+                  "lbesnard/River_Height_Tasmania",
+                  "aodn/chef", \
+                  "aodn/chef-private", \
+                  "lbesnard/OSM_Tile_Download",\
+                  "aodn/harvesters", \
+                  "aodn/imos-user-code-library", \
+                  "twpayne/flightrecorder", \
+                  "reicast/reicast-emulator",
+                  "junegunn/vim-easy-align"]
 
+# co git repos using ssh key.  http://stackoverflow.com/questions/24024783/checkout-git-repo-with-chef-with-ssh-key
 github_repos.flatten.each do |repo_name|
   # keep only the repo name part of the string
   name=repo_name.rpartition('/').last
   name.slice! ".git"
 
   git "#{GITHUB_REPO}/#{name}" do
-    repository repo_name
+    repository "ext::ssh -i #{HOME_DIR}/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@github.com %S /#{repo_name}.git"
     reference "master"
     action :checkout
     enable_submodules true
@@ -37,6 +38,7 @@ github_repos.flatten.each do |repo_name|
     ignore_failure true
   end
 end
+
 
 execute "dotfiles" do
   command "bash #{GITHUB_REPO}/dotfiles/install"

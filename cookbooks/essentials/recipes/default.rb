@@ -14,13 +14,25 @@ directory "#{HOME_DIR}/paragliding" do
    action :create
 end
 
-# set plat for dropbox
+# set plat for dropbox ...
 if RUBY_PLATFORM == 'x86_64-linux'
   archDropbox = "amd64"
-  archFpalc = "linux-x86_64"
+  archFpalc   = "linux-x86_64"
 else
   archDropbox = "i386"
-  archFpalc = "linux-i686"
+  archFpalc   = "linux-i686"
+end
+archFilebot = "#{archDropbox}"
+
+remote_file "/tmp/filebot.deb" do
+  source "http://downloads.sourceforge.net/project/filebot/filebot/FileBot_4.6.1/filebot_4.6.1_#{archFilebot}.deb"
+  mode 0644
+end
+
+dpkg_package "FileBot" do
+  source "/tmp/filebot.deb"
+  action :install
+  ignore_failure true
 end
 
 remote_file "/tmp/dropbox.deb" do
@@ -50,7 +62,7 @@ netcdf      = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfvie
 vm          = %w{virtualbox virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 bundler rbenv gem }
 # timidity tuxguitar-jsa to solve conflict with tuxguitar
 guitar      = %w{tuxguitar timidity tuxguitar-jsa}
-multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag cantata gmpc filebot}
+multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag cantata gmpc}
 pdf         = %w{scantailor pdfmod}
 db          = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.3 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
 janus       = %w{ruby-dev rake exuberant-ctags ack-grep}

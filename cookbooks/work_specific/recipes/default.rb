@@ -44,7 +44,7 @@ remote_file "/tmp/vagrant.deb" do
 end
 
 dpkg_package "vagrant" do
-    source "/tmp/chef_dk_amd64.deb"
+    source "/tmp/vagrant.deb"
     action :install
     ignore_failure true
 end
@@ -78,7 +78,7 @@ end
 bash "install vagrant-berkshelf" do
   cwd '/tmp'
   code <<-EOH
-   plugin_list=`vagrant plugin list`; [[ ! $plugin_list == *vagrant-berkshelf* ]] && vagrant plugin install vagrant-berkshelf;
+   plugin_list=`vagrant plugin list`; [[ ! $plugin_list == *vagrant-berkshelf* ]] && vagrant plugin install vagrant-berkshelf; exit 0
    EOH
    environment ({'HOME' => "#{HOME_DIR}" })
    user node['chef_laptop']['user']
