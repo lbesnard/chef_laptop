@@ -2,7 +2,7 @@
 Provision home(amd64-i386) and work laptop after a fresh install of Linux
 Mint XFCE 17 or plus
 
-##  ?
+##  What does this install ?
 this installs :
  * git repos
  * janus for vim
@@ -18,7 +18,7 @@ this installs :
  * copy id_rsa private key to $HOME/.ssh (600)
  * ```mkdir $HOME/github_repo && cd $HOME/github_repo ; sudo apt-get -y install git && git clone https://github.com/lbesnard/chef_laptop```
  * ```sudo -HE $HOME/github_repo/chef_laptop/install.sh```
-```
+
 
 requires https://github.com/lbesnard/dotfiles to exist
 

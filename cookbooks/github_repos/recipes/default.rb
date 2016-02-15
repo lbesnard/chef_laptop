@@ -13,9 +13,10 @@ end
 
 github_repos = [  "lbesnard/dotfiles", \
                   "lbesnard/River_Height_Tasmania",
+                  "lbesnard/OSM_Tile_Download",\
+                  "lbesnard/encryption",\
                   "aodn/chef", \
                   "aodn/chef-private", \
-                  "lbesnard/OSM_Tile_Download",\
                   "aodn/harvesters", \
                   "aodn/imos-user-code-library", \
                   "twpayne/flightrecorder", \
