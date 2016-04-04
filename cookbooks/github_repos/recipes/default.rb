@@ -12,16 +12,16 @@ directory "#{GITHUB_REPO}" do
 end
 
 github_repos = [  "lbesnard/dotfiles", \
-                  "lbesnard/River_Height_Tasmania",
-                  "lbesnard/OSM_Tile_Download",\
-                  "lbesnard/encryption",\
+                  "lbesnard/River_Height_Tasmania", \
+                  "lbesnard/OSM_Tile_Download", \
+                  "lbesnard/encryption", \
                   "aodn/chef", \
                   "aodn/chef-private", \
                   "aodn/harvesters", \
                   "aodn/imos-user-code-library", \
                   "twpayne/flightrecorder", \
-                  "reicast/reicast-emulator",
-                  "junegunn/vim-easy-align"]
+                  "reicast/reicast-emulator" \
+                  ]
 
 # co git repos using ssh key.  http://stackoverflow.com/questions/24024783/checkout-git-repo-with-chef-with-ssh-key
 github_repos.flatten.each do |repo_name|
@@ -39,7 +39,6 @@ github_repos.flatten.each do |repo_name|
     ignore_failure true
   end
 end
-
 
 execute "dotfiles" do
   command "bash #{GITHUB_REPO}/dotfiles/install"
@@ -66,23 +65,4 @@ execute "convert git repos https to git" do
   ignore_failure true
   user node['chef_laptop']['user']
   group node['chef_laptop']['group']
-end
-
-# create .janus directory for plugins
-directory "#{HOME_DIR}/.janus" do
-  mode 0755
-  owner node['chef_laptop']['user']
-  group node['chef_laptop']['group']
-  user node['chef_laptop']['user']
-  action :create
-  ignore_failure true
-end
-
-execute "add vim plugins to .janus" do
-  command "ln --force -s #{GITHUB_REPO}/vim-easy-align #{HOME_DIR}/.janus/vim-easy-align"
-  action :run
-  environment ({'HOME' => "#{HOME_DIR}"})
-  ignore_failure true
-  group node['chef_laptop']['group']
-  user node['chef_laptop']['user']
 end

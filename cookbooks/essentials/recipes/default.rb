@@ -46,16 +46,14 @@ dpkg_package "Dropbox" do
   ignore_failure true
 end
 
-
 ##  handbrake
 apt_repository 'handbrake' do
   uri       'http://ppa.launchpad.net/stebbins/handbrake-releases/ubuntu'
-  components ['raring','main']
+  components ['raring', 'main']
 end
 
-
-essentials  = %w{xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
-network     = %w{elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd network-manager network-manager-gnome network-manager-openvpn network-manager-openvpn-gnome network-manager-pptp  network-manager-pptp-gnome  network-manager-vpnc  network-manager-vpnc-gnome ngrep strace transmission-gtk}
+essentials  = %w{bum xmlindent cmake xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
+network     = %w{gufw elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd network-manager network-manager-gnome network-manager-openvpn network-manager-openvpn-gnome network-manager-pptp  network-manager-pptp-gnome  network-manager-vpnc  network-manager-vpnc-gnome ngrep strace transmission-gtk}
 java        = %w{ant}
 make_deb_pckg= %w{automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev checkinstall}
 netcdf      = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfview}
@@ -73,23 +71,6 @@ packages    = [ essentials, network, java, make_deb_pckg, netcdf, vm, guitar, mu
 
 packages.flatten.each do |a_package|
   package a_package
-end
-
-# install janus for vim
-bash "install janus" do
-  cwd "#{HOME_DIR}"
-  code <<-EOH
-   mkdir -p #{HOME_DIR}/.vim;
-   if [ -f #{HOME_DIR}/.vim/Rakefile ]
-   then
-       cd #{HOME_DIR}/.vim && rake
-   else
-       curl -Lo- http://bit.ly/janus-bootstrap | bash
-   fi
-   EOH
-   environment ({'HOME' => "#{HOME_DIR}" })
-   user node['chef_laptop']['user']
-   ignore_failure true
 end
 
 # autostart guake

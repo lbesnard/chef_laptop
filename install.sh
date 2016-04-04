@@ -1,6 +1,7 @@
 #!/bin/bash
 # run as root
 chef_binary=/usr/bin/chef-solo
+script_dir=`dirname $0`
 
 # Are we on a vanilla system?
 if ! test -f "$chef_binary"; then
@@ -15,13 +16,13 @@ fi
 #openssl rsa -in ~/.ssh/id_rsa -out ~/.ssh/id_rsa_new
 #cp ~/.ssh/id_rsa_new ~/.ssh/id_rsa
 #ssh-agent
-#ssh-add
+ssh-add -t 1h
 
 echo "provision chef"
 if [ `uname -m`  == "x86_64" ] ; then
-    "$chef_binary" -c chef_laptop.rb -j chef_laptop_x86_64.json
+    "$chef_binary" -c chef_laptop.rb -j $script_dir/chef_laptop_x86_64.json
 else
-    "$chef_binary" -c chef_laptop.rb -j chef_laptop_x86.json
+    "$chef_binary" -c chef_laptop.rb -j $script_dir/chef_laptop_x86.json
 fi
 
 
@@ -32,7 +33,15 @@ command -v calibre >/dev/null && echo "calibre Found In \$PATH" || \
 echo "install gpligc paragliding tool"
 
 if [ `uname -m`  == "x86_64" ] ; then
-    dpkg -i dpkg/gpligc_1.10pre7-1_amd64.deb
+    dpkg -i $script_dir/dpkg/gpligc_1.10pre7-1_amd64.deb
 else
-    dpkg -i dpkg/gpligc_1.10pre7-1_i386.deb
+    dpkg -i $script_dir/dpkg/gpligc_1.10pre7-1_i386.deb
 fi
+
+# ctag for vim python
+if [ `uname -m`  == "x86_64" ] ; then
+    dpkg -i $script_dir/dpkg/ctags_5.8-1_amd64.deb
+fi
+
+# update vim automatically
+vim +VundleClean +PluginInstall +qall
