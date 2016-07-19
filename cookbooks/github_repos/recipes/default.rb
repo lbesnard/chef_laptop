@@ -15,6 +15,7 @@ github_repos = [  "lbesnard/dotfiles", \
                   "lbesnard/River_Height_Tasmania", \
                   "lbesnard/OSM_Tile_Download", \
                   "lbesnard/encryption", \
+                  "lbesnard/BuildingMachineLearningSystemsWithPython", \
                   "aodn/chef", \
                   "aodn/chef-private", \
                   "aodn/harvesters", \
