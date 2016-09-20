@@ -52,20 +52,20 @@ apt_repository 'handbrake' do
   components ['raring', 'main']
 end
 
-essentials  = %w{powerline htop tmux cifs-utils bum xmlindent cmake xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 kpcli xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
+essentials  = %w{autojump vim-python-jedi powerline htop tmux cifs-utils bum xmlindent cmake xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 kpcli xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
 network     = %w{gufw elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd network-manager network-manager-gnome network-manager-openvpn network-manager-openvpn-gnome network-manager-pptp  network-manager-pptp-gnome  network-manager-vpnc  network-manager-vpnc-gnome ngrep strace transmission-gtk}
 java        = %w{ant}
 make_deb_pckg= %w{automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev checkinstall}
 netcdf      = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfview}
-vm          = %w{virtualbox virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 bundler rbenv gem }
+vm          = %w{virtualbox virtualbox-guest-dkms virtualbox-guest-additions-iso virtualbox-guest-utils virtualbox-guest-x11 virtualbox-qt bundler rbenv gem }
 # timidity tuxguitar-jsa to solve conflict with tuxguitar
 guitar      = %w{tuxguitar timidity tuxguitar-jsa}
-multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify vlc-plugin-pulse clementine darktable handbrake xchat skype imagemagick youtuBE-DL easytag cantata gmpc}
+multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify clementine darktable handbrake skype imagemagick youtube-dl easytag cantata gmpc}
 pdf         = %w{scantailor pdfmod}
-db          = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.4 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
+db          = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.5 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
 janus       = %w{ruby-dev rake exuberant-ctags ack-grep}
 raspberrypi = %w{tightvncserver}
-beets       = %w{python-gi gstreamer0.10-plugins-good gstreamer0.10-plugins-bad gstreamer0.10-plugins-ugly spark}
+beets       = %w{python-gi gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly spark}
 paragliding = %w{freeglut3 freeglut3-dev gnuplot perl-tk xterm gnuplot-x11 python-geopy}
 packages    = [ essentials, network, java, make_deb_pckg, netcdf, vm, guitar, multimedia, pdf, db, janus, raspberrypi, beets, paragliding ]
 
@@ -84,7 +84,7 @@ end
 
 # install beet mp3 tag
 execute "beet_install" do
- command "pip install beets; pip install flask; pip install pylast; pip install pyacoustid; pip install discogs-client"
+ command "pip install setuptools; pip install beets; pip install flask; pip install pylast; pip install pyacoustid; pip install discogs-client"
   action :run
   environment ({'HOME' => '#{HOME_DIR}'})
   ignore_failure true

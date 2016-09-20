@@ -51,17 +51,18 @@ end
 
 # Install chef-dk , still need manual process
 remote_file "/tmp/chef_dk_amd64.deb" do
-  source "https://opscode-omnibus-packages.s3.amazonaws.com/ubuntu/12.04/x86_64/chefdk_0.9.0-1_amd64.deb"
+  source "https://packages.chef.io/stable/ubuntu/12.04/chefdk_0.17.17-1_amd64.deb"
   mode 0644
-  checksum "26cfeef1cca36038cd4bea7f9bd7c7146b66e0dd08fc6a8a4b713bbb913b2967"
+  checksum "e247a5cf850f7c693a50b4a2cff07c3b4184c0ec0678493dfcd612e377bda6fd"
   use_conditional_get true
 end
 
 dpkg_package "chef_dk" do
     source "/tmp/chef_dk_amd64.deb"
     action :install
-    ignore_failure true
+    ignore_failure false
 end
+
 
 # install berkshelf
 bash "install berkshelf" do

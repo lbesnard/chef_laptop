@@ -21,7 +21,8 @@ github_repos = [  "lbesnard/dotfiles", \
                   "aodn/harvesters", \
                   "aodn/imos-user-code-library", \
                   "twpayne/flightrecorder", \
-                  "reicast/reicast-emulator" \
+                  "reicast/reicast-emulator", \
+                  "powerline/fonts"\
                   ]
 
 # co git repos using ssh key.  http://stackoverflow.com/questions/24024783/checkout-git-repo-with-chef-with-ssh-key
@@ -61,6 +62,15 @@ end
 
 execute "convert git repos https to git" do
   command "bash #{HOME_DIR}/bin/convert_repo_https_to_ssh.sh"
+  action :run
+  environment ({'HOME' => "#{HOME_DIR}"})
+  ignore_failure true
+  user node['chef_laptop']['user']
+  group node['chef_laptop']['group']
+end
+
+execute "install powerline fonts" do 
+  command "bash #{GITHUB_REPO}/fonts/install.sh"
   action :run
   environment ({'HOME' => "#{HOME_DIR}"})
   ignore_failure true

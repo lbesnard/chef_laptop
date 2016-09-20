@@ -1,6 +1,6 @@
 HOME_DIR = "/home/#{node['chef_laptop']['user']}"
 
-python_package = [%w{python-pip python-dev python-matplotlib python-netcdf python-tk python-psycopg2 python-beautifulsoup libhdf5-serial-dev libnetcdf-dev ipython python-scipy python-rpy2 python-pythonmagick}]
+python_package = [%w{python-pip python-dev python-matplotlib python-netcdf4 python-tk python-psycopg2 python-beautifulsoup libhdf5-serial-dev libnetcdf-dev ipython python-scipy python-rpy2 python-pythonmagick}]
 python_package.flatten.each do |a_package|
   package a_package
 end
@@ -32,6 +32,17 @@ execute "python selenium" do
   ignore_failure true
   user "root"
 end
+
+# powerline
+execute "python - powerline" do
+ command "pip install powerline-status; pip install pyuv"
+  action :run
+  environment ({'HOME' => '#{HOME_DIR}'})
+  ignore_failure true
+  user "root"
+end
+
+
 
 ## to do , replace all above lines with this
 #python_requirements = ::File.join(data_services_dir, "python_requirements.txt")

@@ -30,15 +30,15 @@ execute "cleaning" do
 end
 
 # retroach
-execute "retroarch" do
- command  "add-apt-repository -y ppa:hunter-kaller/ppa; apt-get update;"
-  action :run
-  environment ({'HOME' => '#{HOME_DIR}'})
-  ignore_failure true
-  user "root"
-end
+#execute "retroarch" do
+ #command  "add-apt-repository -y ppa:hunter-kaller/ppa; apt-get update;"
+  #action :run
+  #environment ({'HOME' => '#{HOME_DIR}'})
+  #ignore_failure true
+  #user "root"
+#end
 
-games = %w{dos2unix doom-wad-shareware doomseeker doomseeker-zandronum gzdoom ioquake3 ioquake3-dbg ioquake3-server zsnes playonlinux wine1.6  zandronum zandronum-client zandronum-pk3 zandronum-server retroarch libretro-snes9x  libretro-bsnes libretro-snes9x-next }
+games = %w{dos2unix doom-wad-shareware doomseeker doomseeker-zandronum gzdoom ioquake3 ioquake3-dbg ioquake3-server zsnes playonlinux wine1.6  zandronum zandronum-client zandronum-pk3 zandronum-server}
 packages = [games]
 
 packages.flatten.each do |a_package|
