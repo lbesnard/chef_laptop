@@ -1,6 +1,6 @@
 HOME_DIR = "/home/#{node['chef_laptop']['user']}"
 
-python_package = [%w{python-pip python-dev python-matplotlib python-netcdf4 python-tk python-psycopg2 python-beautifulsoup libhdf5-serial-dev libnetcdf-dev ipython python-scipy python-rpy2 python-pythonmagick}]
+python_package = [%w{python-pip python-dev python-matplotlib python-netcdf4 python-tk python-psycopg2 python-beautifulsoup libhdf5-serial-dev libnetcdf-dev ipython python-scipy python-rpy2 python-pythonmagick virtualenv}]
 python_package.flatten.each do |a_package|
   package a_package
 end
@@ -17,7 +17,7 @@ end
 
 # various python packages
 execute "python - various packages" do
- command "pip install pathlib; pip install grequests"
+ command "pip install pathlib; pip install grequests; pip install virtualenvwrapper"
   action :run
   environment ({'HOME' => '#{HOME_DIR}'})
   ignore_failure true
