@@ -66,5 +66,8 @@ if [ `uname -m`  == "x86_64" ] ; then
     sudo dpkg -i $chef_dir/dpkg/ctags_5.8-1_amd64.deb
 fi
 
+# fonts
+cp -R $chef_dir/fonts $HOME/.local/share/fonts && fc-cache -fv $HOME/.local/share/fonts
+
 # update vim automatically
 vim +VundleClean +PluginInstall +qall
