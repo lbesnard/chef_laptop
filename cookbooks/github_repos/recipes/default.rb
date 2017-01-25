@@ -22,6 +22,8 @@ github_repos = [  "lbesnard/dotfiles", \
                   "aodn/imos-user-code-library", \
                   "twpayne/flightrecorder", \
                   "reicast/reicast-emulator", \
+                  "ryanoasis/nerd-fonts", \
+                  "gabrielelana/awesome-terminal-fonts", \
                   "powerline/fonts"\
                   ]
 
@@ -69,8 +71,8 @@ execute "convert git repos https to git" do
   group node['chef_laptop']['group']
 end
 
-execute "install powerline fonts" do 
-  command "bash #{GITHUB_REPO}/fonts/install.sh"
+execute "install various fonts" do
+  command "bash #{GITHUB_REPO}/fonts/install.sh; bash #{GITHUB_REPO}/nerd-fonts/install.sh; bash #{GITHUB_REPO}/awesome-terminal-fonts/install.sh"
   action :run
   environment ({'HOME' => "#{HOME_DIR}"})
   ignore_failure true
