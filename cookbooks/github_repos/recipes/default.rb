@@ -36,6 +36,7 @@ github_repos.flatten.each do |repo_name|
   git "#{GITHUB_REPO}/#{name}" do
     repository "ext::ssh -i #{HOME_DIR}/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@github.com %S /#{repo_name}.git"
     reference "master"
+    depth 5
     action :checkout
     enable_submodules true
     user node['chef_laptop']['user']
