@@ -1,52 +1,20 @@
 HOME_DIR = "/home/#{node['chef_laptop']['user']}"
 
 
-# CREATE DIRECTORIES
-directory '/mnt/imos-t4' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
-directory '/mnt/opendap' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
-directory '/mnt/opendap/1' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
-directory '/mnt/opendap/2' do
-   owner 'root'
-   group 'root'
-   mode '0755'
-   action :create
-   ignore_failure true
-end
-
-
 # Install vagrant 1.7
 remote_file "/tmp/vagrant.deb" do
   source "https://releases.hashicorp.com/vagrant/1.7.4/vagrant_1.7.4_x86_64.deb"
   mode 0644
   checksum "dcd2c2b5d7ae2183d82b8b363979901474ba8d2006410576ada89d7fa7668336"
   use_conditional_get true
+  not_if 'which vagrant | grep vagrant'
 end
 
 dpkg_package "vagrant" do
     source "/tmp/vagrant.deb"
     action :install
     ignore_failure true
+    not_if 'which vagrant | grep vagrant'
 end
 
 # Install chef-dk , still need manual process

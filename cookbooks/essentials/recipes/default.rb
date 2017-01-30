@@ -27,23 +27,27 @@ archFilebot = "#{archDropbox}"
 remote_file "/tmp/filebot.deb" do
   source "http://downloads.sourceforge.net/project/filebot/filebot/FileBot_4.6.1/filebot_4.6.1_#{archFilebot}.deb"
   mode 0644
+  not_if 'which filebot | grep filebot'
 end
 
 dpkg_package "FileBot" do
   source "/tmp/filebot.deb"
   action :install
   ignore_failure true
+  not_if 'which filebot | grep filebot'
 end
 
 remote_file "/tmp/dropbox.deb" do
   source "https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_#{archDropbox}.deb"
   mode 0644
+  not_if 'which dropbox | grep dropbox'
 end
 
 dpkg_package "Dropbox" do
   source "/tmp/dropbox.deb"
   action :install
   ignore_failure true
+  not_if 'which dropbox | grep dropbox'
 end
 
 ##  handbrake
