@@ -20,7 +20,7 @@ if ! test -f "$chef_binary"; then
     sudo apt-get --asume-yes true install chef
 fi
 
-command -v keepass2 > /dev/null || sudo -v apt-get -y install keepass2
+command -v keepass2 > /dev/null || sudo apt-get -y install keepass2
 
 # install dropbox
 if [ ! -d "$HOME/Dropbox" ]; then
