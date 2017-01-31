@@ -9,7 +9,7 @@ command -v git > /dev/null || sudo apt-get -y install git
 # clone repo
 if [ ! -d  $chef_dir ]; then
     sudo -u $user mkdir -p $HOME/github_repo && cd $HOME/github_repo
-    git clone https://github.com/lbesnard/chef_laptop
+    git clone https://github.com/lbesnard/chef_laptop --depth 1
 fi
 
 # Are we on a vanilla system?
@@ -41,7 +41,7 @@ if [ ! -f "$HOME/.ssh/id_rsa" ]; then
 fi
 
 ssh-add -t 1h
-
+sudo apt-get -y -f install
 echo "provision chef"
 cd $chef_dir
 if [ `uname -m`  == "x86_64" ] ; then

@@ -27,6 +27,7 @@ archFilebot = "#{archDropbox}"
 remote_file "/tmp/filebot.deb" do
   source "http://downloads.sourceforge.net/project/filebot/filebot/FileBot_4.6.1/filebot_4.6.1_#{archFilebot}.deb"
   mode 0644
+  ignore_failure true
   not_if 'which filebot | grep filebot'
 end
 
@@ -37,18 +38,6 @@ dpkg_package "FileBot" do
   not_if 'which filebot | grep filebot'
 end
 
-remote_file "/tmp/dropbox.deb" do
-  source "https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_#{archDropbox}.deb"
-  mode 0644
-  not_if 'which dropbox | grep dropbox'
-end
-
-dpkg_package "Dropbox" do
-  source "/tmp/dropbox.deb"
-  action :install
-  ignore_failure true
-  not_if 'which dropbox | grep dropbox'
-end
 
 ##  handbrake
 apt_repository 'handbrake' do
@@ -56,22 +45,22 @@ apt_repository 'handbrake' do
   components ['raring', 'main']
 end
 
-essentials  = %w{zsh nodejs-legacy ttf-ancient-fonts libpq-dev autojump vim-python-jedi coreutils powerline htop tmux cifs-utils bum xmlindent cmake xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 kpcli xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
-network     = %w{gufw elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd network-manager network-manager-gnome network-manager-openvpn network-manager-openvpn-gnome network-manager-pptp  network-manager-pptp-gnome  network-manager-vpnc  network-manager-vpnc-gnome ngrep strace transmission-gtk}
-java        = %w{ant}
-make_deb_pckg= %w{automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev checkinstall}
-netcdf      = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfview}
-vm          = %w{virtualbox virtualbox-guest-dkms virtualbox-guest-additions-iso virtualbox-guest-utils virtualbox-guest-x11 virtualbox-qt bundler rbenv gem }
+essentials    = %w{python-pip zsh nodejs-legacy ttf-ancient-fonts libpq-dev autojump vim-python-jedi coreutils powerline htop tmux cifs-utils bum xmlindent cmake xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 kpcli xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
+network       = %w{gufw elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd network-manager network-manager-gnome network-manager-openvpn network-manager-openvpn-gnome network-manager-pptp  network-manager-pptp-gnome  network-manager-vpnc  network-manager-vpnc-gnome ngrep strace transmission-gtk}
+java          = %w{ant}
+make_deb_pckg = %w{automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev checkinstall}
+netcdf        = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfview}
+vm            = %w{virtualbox virtualbox-guest-dkms virtualbox-guest-additions-iso virtualbox-guest-utils virtualbox-guest-x11 virtualbox-qt bundler rbenv gem }
 # timidity tuxguitar-jsa to solve conflict with tuxguitar
-guitar      = %w{tuxguitar timidity tuxguitar-jsa}
-multimedia  = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify clementine darktable handbrake skype imagemagick youtube-dl easytag puddletag cantata gmpc lmms}
-pdf         = %w{scantailor pdfmod pdftk}
-db          = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.5 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
-janus       = %w{ruby-dev rake exuberant-ctags ack-grep}
-raspberrypi = %w{tightvncserver}
-beets       = %w{python-gi gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly spark}
-paragliding = %w{freeglut3 freeglut3-dev gnuplot perl-tk xterm gnuplot-x11 python-geopy}
-packages    = [ essentials, network, java, make_deb_pckg, netcdf, vm, guitar, multimedia, pdf, db, janus, raspberrypi, beets, paragliding ]
+guitar        = %w{tuxguitar timidity tuxguitar-jsa}
+multimedia    = %w{mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify clementine darktable handbrake skype imagemagick youtube-dl easytag puddletag cantata gmpc lmms}
+pdf           = %w{scantailor pdfmod pdftk}
+db            = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.5 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
+janus         = %w{ruby-dev rake exuberant-ctags ack-grep}
+raspberrypi   = %w{tightvncserver}
+beets         = %w{python-gi gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly spark}
+paragliding   = %w{freeglut3 freeglut3-dev gnuplot perl-tk xterm gnuplot-x11 python-geopy}
+packages      = [ essentials, network, java, make_deb_pckg, netcdf, vm, guitar, multimedia, pdf, db, janus, raspberrypi, beets, paragliding ]
 
 packages.flatten.each do |a_package|
   package a_package

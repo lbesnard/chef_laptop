@@ -18,6 +18,8 @@ this installs :
 
  * install private key to ```$HOME/.ssh``` (600)
 
-```$ curl -sSL https://raw.githubusercontent.com/lbesnard/chef_laptop/master/install.sh | bash```
+```bash
+curl -sSL https://raw.githubusercontent.com/lbesnard/chef_laptop/master/install.sh | bash
+```
 
 requires https://github.com/lbesnard/dotfiles to exist
