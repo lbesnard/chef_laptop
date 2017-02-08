@@ -45,7 +45,7 @@ apt_repository 'handbrake' do
   components ['raring', 'main']
 end
 
-essentials    = %w{python-pip zsh nodejs-legacy ttf-ancient-fonts libpq-dev autojump vim-python-jedi coreutils powerline htop tmux cifs-utils bum xmlindent cmake xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 kpcli xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
+essentials    = %w{python-pip zsh nodejs-legacy ttf-ancient-fonts libpq-dev autojump vim-python-jedi coreutils htop tmux cifs-utils bum xmlindent cmake xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepass2 kpcli xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
 network       = %w{gufw elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd network-manager network-manager-gnome network-manager-openvpn network-manager-openvpn-gnome network-manager-pptp  network-manager-pptp-gnome  network-manager-vpnc  network-manager-vpnc-gnome ngrep strace transmission-gtk}
 java          = %w{ant}
 make_deb_pckg = %w{automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev checkinstall}
@@ -74,6 +74,17 @@ execute "autostart guake" do
   ignore_failure true
   user "root"
 end
+ 
+# install powerline
+execute "powerline_install" do
+  command "pip install git+git://github.com/Lokaltog/powerline"
+  action :run
+  environment ({'HOME' => '#{HOME_DIR}'})
+  ignore_failure true
+  user "root"
+end
+
+
 
 # install beet mp3 tag
 execute "beet_install" do
