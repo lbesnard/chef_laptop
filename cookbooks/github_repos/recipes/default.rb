@@ -24,6 +24,7 @@ github_repos = [  "lbesnard/dotfiles", \
                   "reicast/reicast-emulator", \
                   "ryanoasis/nerd-fonts", \
                   "gabrielelana/awesome-terminal-fonts", \
+                  "beetbox/beets", \
                   "powerline/fonts"\
                   ]
 
