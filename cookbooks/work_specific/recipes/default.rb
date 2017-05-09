@@ -52,8 +52,17 @@ bash "install vagrant-berkshelf" do
    environment ({'HOME' => "#{HOME_DIR}" })
    user node['chef_laptop']['user']
    ignore_failure true
-   #return [0]
-   #return [0,1]
+end
+
+# install vbguest to avoid mount folders issues
+bash "install vagrant-vbguest" do
+  cwd '/tmp'
+  code <<-EOH
+   plugin_list=`vagrant plugin list`; [[ ! $plugin_list == *vagrant-vbguest* ]] && vagrant plugin install vagrant-vbguest; exit 0
+   EOH
+   environment ({'HOME' => "#{HOME_DIR}" })
+   user node['chef_laptop']['user']
+   ignore_failure true
 end
 
 
