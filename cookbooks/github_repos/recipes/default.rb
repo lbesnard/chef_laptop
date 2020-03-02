@@ -18,13 +18,8 @@ github_repos = [  "lbesnard/dotfiles", \
                   "lbesnard/BuildingMachineLearningSystemsWithPython", \
                   "aodn/chef", \
                   "aodn/chef-private", \
-                  "aodn/harvesters", \
-                  "aodn/imos-user-code-library", \
-                  "twpayne/flightrecorder", \
-                  "reicast/reicast-emulator", \
                   "ryanoasis/nerd-fonts", \
                   "gabrielelana/awesome-terminal-fonts", \
-                  "beetbox/beets", \
                   "powerline/fonts"\
                   ]
 
@@ -55,14 +50,6 @@ execute "dotfiles" do
   group node['chef_laptop']['group']
 end
 
-# install cheat
-execute "cheat_install" do
-  command "pip install docopt pygments;cd #{GITHUB_REPO}/dotfiles/libs/cheat; python setup.py install"
-  action :run
-  environment ({'HOME' => "#{HOME_DIR}"})
-  ignore_failure true
-  user "root"
-end
 
 execute "convert git repos https to git" do
   command "bash #{HOME_DIR}/bin/convert_repo_https_to_ssh.sh"

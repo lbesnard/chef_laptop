@@ -17,7 +17,7 @@ end
 
 # various python packages
 execute "python - various packages" do
- command "pip install pathlib; pip install grequests; pip install virtualenv; pip install virtualenvwrapper; pip install isort; pip install flake8; pip install autopep8"
+ command "pip install pathlib; pip install grequests; pip install virtualenv; pip install virtualenvwrapper; pip install isort; pip install flake8; pip install autopep8; pip install BeautifulSoup4"
   action :run
   environment ({'HOME' => '#{HOME_DIR}'})
   ignore_failure true

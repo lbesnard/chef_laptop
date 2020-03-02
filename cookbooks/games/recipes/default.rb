@@ -10,8 +10,7 @@ execute "cleaning" do
   user "root"
 end
 
-
-games = %w{mess dos2unix doom-wad-shareware doomseeker doomseeker-zandronum gzdoom ioquake3 ioquake3-dbg ioquake3-server zsnes playonlinux wine1.6}
+games = %w{mess dos2unix zsnes playonlinux wine1.6}
 packages = [games]
 
 packages.flatten.each do |a_package|

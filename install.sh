@@ -20,27 +20,6 @@ if ! test -f "$chef_binary"; then
     sudo apt-get --asume-yes true install chef
 fi
 
-command -v keepass2 > /dev/null || sudo apt-get -y install keepass2
-
-# install dropbox
-if [ ! -d "$HOME/Dropbox" ]; then
-    if [ `uname -m`  == "x86_64" ] ; then
-        cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-    else
-        cd ~ && wget -O - "https://www.dropbox.com/download?plat=lnx.x86" | tar xzf -
-    fi
-
-    (~/.dropbox-dist/dropboxd;)
-fi
-
-if [ ! -f "$HOME/.ssh/id_rsa" ]; then
-    mkdir -p "$HOME/.ssh"
-    sudo -u $user chmod u+xr,go-rwx $HOME/.ssh
-    echo "please install private key"
-    exit 1
-fi
-
-ssh-add -t 1h
 sudo apt-get -y -f install
 echo "provision chef"
 cd $chef_dir
@@ -50,9 +29,6 @@ else
     sudo -HE chef-solo -c chef_laptop.rb -j chef_laptop_x86.json
 fi
 
-command -v calibre > /dev/null || \
-    (sudo -v && wget -nv -O- https://raw.githubusercontent.com/kovidgoyal/calibre/master/setup/linux-installer.py | \
-        sudo python -c "import sys; main=lambda:sys.stderr.write('Download failed\n'); exec(sys.stdin.read()); main()")
 
 echo "install gpligc paragliding tool"
 if [ `uname -m`  == "x86_64" ] ; then
@@ -60,14 +36,3 @@ if [ `uname -m`  == "x86_64" ] ; then
 else
     sudo dpkg -i $chef_dir/dpkg/gpligc_1.10pre7-1_i386.deb
 fi
-
-# ctag for vim python
-if [ `uname -m`  == "x86_64" ] ; then
-    sudo dpkg -i $chef_dir/dpkg/ctags_5.8-1_amd64.deb
-fi
-
-# fonts
-cp -R $chef_dir/fonts $HOME/.local/share/fonts && fc-cache -fv $HOME/.local/share/fonts
-
-# update vim automatically
-vim +VundleClean +PluginInstall +qall

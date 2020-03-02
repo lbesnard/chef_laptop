@@ -9,7 +9,6 @@
     "recipe[apt::default]",
     "recipe[build-essential::default]",
     "recipe[python_packages::default]",
-    "recipe[vim::default]",
     "recipe[perl::default]",
     "recipe[nmap::default]",
     "recipe[ssh::default]",

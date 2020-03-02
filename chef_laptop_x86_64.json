@@ -7,16 +7,13 @@
  },
   "run_list": [
     "recipe[apt::default]",
-    "recipe[vim::default]",
     "recipe[build-essential::default]",
     "recipe[perl::default]",
     "recipe[essentials::default]",
-    "recipe[python_packages::default]",
     "recipe[nmap::default]",
     "recipe[ssh::default]",
     "recipe[work_specific::default]",
     "recipe[github_repos::default]",
-    "recipe[dolphin-emu::default]",
     "recipe[games::default]"
   ]
 }

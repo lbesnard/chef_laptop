@@ -3,9 +3,9 @@ HOME_DIR = "/home/#{node['chef_laptop']['user']}"
 
 # Install vagrant 1.7
 remote_file "/tmp/vagrant.deb" do
-  source "https://releases.hashicorp.com/vagrant/1.7.4/vagrant_1.7.4_x86_64.deb"
+  source "https://releases.hashicorp.com/vagrant/2.1.1/vagrant_2.1.1_x86_64.deb"
   mode 0644
-  checksum "dcd2c2b5d7ae2183d82b8b363979901474ba8d2006410576ada89d7fa7668336"
+  checksum "cee18b6f3b1209ea5878c22cfd84a9f0004f20ef146cb7a18aada19162928a0f"
   use_conditional_get true
   not_if 'which vagrant | grep vagrant'
 end
@@ -19,9 +19,9 @@ end
 
 # Install chef-dk , still need manual process
 remote_file "/tmp/chef_dk_amd64.deb" do
-  source "https://packages.chef.io/stable/ubuntu/12.04/chefdk_0.17.17-1_amd64.deb"
+  source "https://packages.chef.io/files/stable/chefdk/1.3.40/ubuntu/16.04/chefdk_1.3.40-1_amd64.deb"
   mode 0644
-  checksum "e247a5cf850f7c693a50b4a2cff07c3b4184c0ec0678493dfcd612e377bda6fd"
+  checksum "77bbd40587b0411387fe444bef6675f6e3157219e94dc792f247b3a44f172ba5"
   use_conditional_get true
 end
 
@@ -75,12 +75,4 @@ bash "install ncBrowse to /opt" do
   EOH
   environment ({'HOME' => '#{HOME_DIR}' })
   ignore_failure true
-end
-
-# create TALEND link
-link "#{HOME_DIR}/Desktop/Talend" do
-   to "/opt/TOS_DI-r96646-V5.1.3/TOS_DI-linux-gtk-x86_64"
-   user node['chef_laptop']['user']
-   group node['chef_laptop']['group']
-   ignore_failure true
 end
