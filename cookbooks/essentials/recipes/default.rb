@@ -16,15 +16,15 @@ end
 
 
 
-essentials    = %w{mc powerline python-pip zsh ttf-ancient-fonts libpq-dev autojump vim-python-jedi coreutils htop tmux cifs-utils bum xmlindent cmake xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepassx kpcli xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
+essentials    = %w{virtualenv sublime-text mc powerline python-pip zsh ttf-ancient-fonts libpq-dev autojump vim-python-jedi coreutils htop tmux cifs-utils bum xmlindent cmake xvfb shunit2 yajl-tools txt2regex emacs whois devscripts keepassx kpcli xdotool kpcli chromium-browser guake git bash-completion sshfs gt5 gftp dropbox gtg screen time unrar unzip  p7zip  cowsay curl twitter-recess source-highlight build-essential x11-utils pdfposter xsltproc libxml2-utils}
 network       = %w{openssh-server gufw elinks irssi libnotify-bin dnsmasq dnsmasq-utils lighttpd network-manager network-manager-gnome network-manager-openvpn network-manager-openvpn-gnome network-manager-pptp  network-manager-pptp-gnome  network-manager-vpnc  network-manager-vpnc-gnome ngrep strace transmission-gtk}
 java          = %w{ant}
 make_deb_pckg = %w{automake autoconf libtool pkg-config libcurl4-openssl-dev intltool libxml2-dev libgtk2.0-dev libnotify-dev libglib2.0-dev libevent-dev checkinstall}
-netcdf        = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfview}
+netcdf        = %w{netcdf-bin nco ncview hdf4-tools hdf5-helpers hdf5-tools hdfview libhdf5-dev libjpeg-dev libnetcdf-dev libpython3-dev libpython3.6-dev libudunits2-dev}
 vm            = %w{virtualbox virtualbox-guest-dkms virtualbox-guest-additions-iso virtualbox-guest-utils virtualbox-guest-x11 virtualbox-qt bundler rbenv gem }
 # timidity tuxguitar-jsa to solve conflict with tuxguitar
 guitar        = %w{tuxguitar timidity tuxguitar-jsa}
-multimedia    = %w{handbrake handbrake-cli arandr audacity cmus mp3blaster vlc vlc-data vlc-nox vlc-plugin-notify clementine darktable handbrake imagemagick youtube-dl easytag puddletag cantata gmpc lmms}
+multimedia    = %w{handbrake handbrake-cli arandr audacity cmus mp3blaster vlc vlc-data vlc-plugin-notify clementine darktable handbrake imagemagick youtube-dl easytag puddletag cantata gmpc lmms}
 pdf           = %w{scantailor pdfmod pdftk}
 db            = %w{mdbtools mdbtools-gmdb  sqlite3 sqlitebrowser pgadmin3 postgresql-9.5 tomcat7 tomcat7-admin tomcat7-common tomcat7-docs}
 janus         = %w{ruby-dev rake exuberant-ctags ack-grep}
