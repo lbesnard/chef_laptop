@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-local user=$USER
-local github_repo=$HOME/github_repo
-local chef_dir=$github_repo/chef_laptop
-local chef_binary=/usr/bin/chef-solo
+user=$USER
+github_repo=$HOME/github_repo
+chef_dir=$github_repo/chef_laptop
+chef_binary=/usr/bin/chef-solo
 
 # install git
 command -v git > /dev/null || sudo apt-get -y install git
