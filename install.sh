@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
-user=$USER
-chef_dir=$HOME/github_repo/chef_laptop
-chef_binary=/usr/bin/chef-solo
+local user=$USER
+local github_repo=$HOME/github_repo
+local chef_dir=$github_repo/chef_laptop
+local chef_binary=/usr/bin/chef-solo
 
 # install git
 command -v git > /dev/null || sudo apt-get -y install git
 
-# clone repo
+# clone chef_laptop_repo
 if [ ! -d  $chef_dir ]; then
     sudo -u $user mkdir -p $HOME/github_repo && cd $HOME/github_repo
     git clone https://github.com/lbesnard/chef_laptop --depth 1

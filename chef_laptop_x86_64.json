@@ -12,8 +12,8 @@
     "recipe[essentials::default]",
     "recipe[nmap::default]",
     "recipe[ssh::default]",
-    "recipe[work_specific::default]",
     "recipe[github_repos::default]",
-    "recipe[games::default]"
+    "recipe[games::default]",
+    "recipe[work_specific::default]"
   ]
 }

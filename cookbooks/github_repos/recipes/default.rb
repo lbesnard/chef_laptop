@@ -30,8 +30,9 @@ github_repos.flatten.each do |repo_name|
   name.slice! ".git"
 
   git "#{GITHUB_REPO}/#{name}" do
-    repository "ext::ssh -i #{HOME_DIR}/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@github.com %S /#{repo_name}.git"
+    repository "git://github.com/#{repo_name}.git"
     reference "master"
+    #repository "ext::ssh -i #{HOME_DIR}/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no git@github.com %S /#{repo_name}.git"
     depth 1
     action :checkout
     enable_submodules true
